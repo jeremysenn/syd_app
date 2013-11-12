@@ -69,9 +69,29 @@ class PhotosScreen < PM::Screen
                     p "Third try, again using BubbleWrap"
                     if image_view.image.nil?
                       p "Oh man, image is still nil after three tries"
-                      placeholder = UIImage.imageNamed('SYD_600_400.png')
-                      image_view.image = placeholder # Put placeholder image in for now
-                      @scroll_view.addSubview image_view
+                      BubbleWrap::HTTP.get(photo.url) do |response|
+                        image_view.image = UIImage.imageWithData(response.body)
+                        @scroll_view.addSubview image_view
+                        p "Fourth try, again using BubbleWrap"
+                        if image_view.image.nil?
+                          p "Oh man, image is still nil after four tries"
+                          BubbleWrap::HTTP.get(photo.url) do |response|
+                            image_view.image = UIImage.imageWithData(response.body)
+                            @scroll_view.addSubview image_view
+                            p "Fifth try, again using BubbleWrap"
+                            if image_view.image.nil?
+                              p "Oh man, image is still nil after Five tries"
+                              placeholder = UIImage.imageNamed('SYD_600_400.png')
+                              image_view.image = placeholder # Put placeholder image in for now
+                              @scroll_view.addSubview image_view
+                            else
+                              p "Image is good after fifth try"
+                            end
+                          end
+                        else
+                          p "Image is good after fourth try"
+                        end
+                      end
                     else
                       p "Image is good after third try"
                     end
