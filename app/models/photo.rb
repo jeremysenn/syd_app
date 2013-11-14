@@ -11,7 +11,7 @@ class Photo
     @url = attrs[:url]
     @capture_seq_nbr = attrs[:capture_seq_nbr]
     @width = 326.0
-    @height = 400.0
+    @height = 460.0
   end
   
   def self.find(ticket_number, &block)
