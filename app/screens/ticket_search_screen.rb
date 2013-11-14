@@ -2,7 +2,7 @@ class TicketSearchScreen < PM::FormotionScreen
   title "Ticket Search"
   
   def will_appear
-    set_nav_bar_button :left, title: "Cancel", action: :cancel_tapped
+#    set_nav_bar_button :left, title: "Cancel", action: :cancel_tapped
     set_nav_bar_right_button "Search", action: :ticket_search
   end
 

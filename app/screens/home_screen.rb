@@ -64,4 +64,8 @@ class HomeScreen < PM::GroupedTableScreen
   def ticket_search_tapped
     open TicketSearchScreen.new(nav_bar: true)
   end
+
+  def barcode_search_tapped
+    open BarcodeSearchScreen.new(nav_bar: true)
+  end
 end

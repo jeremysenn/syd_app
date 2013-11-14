@@ -2,7 +2,7 @@ class SettingsScreen < PM::FormotionScreen
   title "Settings"
   
   def will_appear
-    set_nav_bar_button :left, title: "Cancel", action: :cancel_tapped
+#    set_nav_bar_button :left, title: "Cancel", action: :cancel_tapped
     set_nav_bar_right_button "Save", action: :save
   end
 
@@ -60,6 +60,7 @@ class SettingsScreen < PM::FormotionScreen
     p @defaults["email"]
     @defaults["password"] = data[:password]
     p @defaults["password"]
+
     close settings_saved: true
   end
 

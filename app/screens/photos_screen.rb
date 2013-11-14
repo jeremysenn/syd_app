@@ -131,7 +131,7 @@ class PhotosScreen < PM::Screen
 
   def add_scroll_view(number_of_pages)
     @scroll_view = UIScrollView.alloc.initWithFrame(
-        CGRect.make(x: 0, y: 0, width: view.frame.width, height: view.frame.height))
+        CGRect.make(x: 0, y: 65, width: view.frame.width, height: view.frame.height))
     @scroll_view.contentSize = CGSizeMake(view.bounds.width * number_of_pages, view.frame.height)
     @scroll_view.pagingEnabled = true
     @scroll_view.delegate = self

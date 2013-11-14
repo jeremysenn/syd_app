@@ -1,5 +1,9 @@
 class Photo
   attr_accessor :url, :width, :height, :capture_seq_nbr
+  AFMotion::Client.build_shared("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/") do
+    operation :json
+    header "Accept", "application/json"
+  end
   
   def initialize(attrs)
 
