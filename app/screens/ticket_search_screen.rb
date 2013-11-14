@@ -40,7 +40,7 @@ class TicketSearchScreen < PM::FormotionScreen
       # Show it to the user
       @alert_box.show
     else
-      open_modal PhotosScreen.new(nav_bar: true, ticket_nbr: data[:ticket_nbr])
+      open PhotosScreen.new(nav_bar: true, ticket_nbr: data[:ticket_nbr])
     end
   end
 
