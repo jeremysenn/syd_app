@@ -8,7 +8,8 @@ class AppDelegate < PM::Delegate
 #      header "Accept", "application/json"
 #    end
 
-    open HomeScreen.new(nav_bar: true)
+#    open HomeScreen.new(nav_bar: true)
+    open_tab_bar SearchScreen.new(nav_bar: true), SettingsScreen.new(nav_bar: true), HelpScreen.new(nav_bar: true)
   end
   
 end

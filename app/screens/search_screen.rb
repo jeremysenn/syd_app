@@ -1,12 +1,13 @@
-class HomeScreen < PM::GroupedTableScreen
-  include HomeStyles
+class SearchScreen < PM::GroupedTableScreen
 
-  title "Home"
+  title "Search"
 
   def on_load
-    set_nav_bar_button :left, title: "Help", action: :help_tapped
-    set_nav_bar_button :right, title: "Settings", action: :settings_tapped
+#    set_nav_bar_button :left, title: "Help", action: :help_tapped
+#    set_nav_bar_button :right, title: "Settings", action: :settings_tapped
 #    set_nav_bar_button :right, title: "States", action: :states_tapped
+
+    set_tab_bar_item({ system_icon: UITabBarSystemItemSearch })
   end
 
   def on_present
@@ -15,7 +16,7 @@ class HomeScreen < PM::GroupedTableScreen
 
   def set_up_view
     set_attributes self.view, {
-      background_color: UIColor.grayColor
+#      background_color: UIColor.grayColor
     }
 
 #    add UILabel.new, label_view # found in HomeStyles module
@@ -23,18 +24,18 @@ class HomeScreen < PM::GroupedTableScreen
     true
   end
 
-  def on_return(args={})
-    if args[:settings_saved]
-      @alert_box = UIAlertView.alloc.initWithTitle("Message",
-        message:"Settings saved",
-        delegate: nil,
-        cancelButtonTitle: "ok",
-        otherButtonTitles:nil)
-        # Show it to the user
-        @alert_box.show
-#      self.title = "Saved!"
-    end
-  end
+#  def on_return(args={})
+#    if args[:settings_saved]
+#      @alert_box = UIAlertView.alloc.initWithTitle("Message",
+#        message:"Settings saved",
+#        delegate: nil,
+#        cancelButtonTitle: "ok",
+#        otherButtonTitles:nil)
+#        # Show it to the user
+#        @alert_box.show
+##      self.title = "Saved!"
+#    end
+#  end
 
   def states_tapped
     open StatesScreen

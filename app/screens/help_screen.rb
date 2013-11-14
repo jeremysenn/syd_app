@@ -2,7 +2,7 @@ class HelpScreen < PM::GroupedTableScreen
   title "Help"
   
   def will_appear
-    set_nav_bar_button :left, title: "Close", action: :close_tapped
+#    set_nav_bar_button :left, title: "Close", action: :close_tapped
   end
 
   def table_data

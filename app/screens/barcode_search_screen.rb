@@ -5,7 +5,8 @@ class BarcodeSearchScreen < PM::Screen
   def will_appear
 
     @view_loaded ||= begin
-      view.backgroundColor = UIColor.whiteColor
+#      view.backgroundColor = UIColor.whiteColor
+      view.backgroundColor = UIColor.grayColor
 
       # Set up a button to launch our barcode reader
 #      @reader_button = add UIButton.buttonWithType(UIButtonTypeRoundedRect), {

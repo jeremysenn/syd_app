@@ -62,6 +62,12 @@ class SettingsScreen < PM::FormotionScreen
     p @defaults["password"]
 
     close settings_saved: true
+    @alert_box = UIAlertView.alloc.initWithTitle("Done",
+      message:"Your settings have been saved",
+      delegate: nil,
+      cancelButtonTitle: "ok",
+      otherButtonTitles:nil)
+      @alert_box.show
   end
 
 end

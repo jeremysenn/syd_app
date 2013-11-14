@@ -2,9 +2,9 @@ class CameraController < UIViewController
   attr_accessor :ticket_nbr
   
  def viewDidLoad
-#    view.backgroundColor = UIColor.grayColor
+    view.backgroundColor = UIColor.grayColor
 #    view.backgroundColor = UIColor.whiteColor
-    view.backgroundColor = UIColor.blackColor
+#    view.backgroundColor = UIColor.blackColor
 #    init_picker_btn
     init_image_picker
     touched# Show camera or gallery
