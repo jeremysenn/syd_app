@@ -37,7 +37,7 @@ class CameraController < UIViewController
     @image_view.removeFromSuperview if @image_view
     @image_view = UIImageView.alloc.initWithImage(image)
 #    @image_view.frame = [[60, 160], [200, 200]]
-    @image_view.frame = [[0, 0],[326, 365]]
+    @image_view.frame = [[0, 65],[326, 460]]
     view.addSubview(@image_view)
 
     right_upload_button = UIBarButtonItem.alloc.initWithTitle("Upload", style: UIBarButtonItemStyleBordered, target:self, action:'upload')

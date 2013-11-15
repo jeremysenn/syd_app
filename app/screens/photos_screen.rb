@@ -4,7 +4,8 @@ class PhotosScreen < PM::Screen
   
   def will_appear
     set_nav_bar_button :left, title: "Close", action: :close_tapped
-    set_nav_bar_right_button "New", action: :new_photo
+#    set_nav_bar_right_button "New", action: :new_photo
+    set_nav_bar_button :right, system_icon: :add, action: :new_photo
 
     show_photos
 
@@ -101,6 +102,7 @@ class PhotosScreen < PM::Screen
                 end
               end
             else
+              p "Image is good on first try"
               p image_view.image
               @scroll_view.addSubview image_view
             end

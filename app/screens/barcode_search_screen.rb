@@ -69,7 +69,8 @@ class BarcodeSearchScreen < PM::Screen
   end
 
   def search_ticket(scanned_ticket_nbr)
-    open PhotosScreen.new(nav_bar: true, ticket_nbr: scanned_ticket_nbr)
+#    open PhotosScreen.new(nav_bar: true, ticket_nbr: scanned_ticket_nbr)
+    open GridPhotosScreen.new(nav_bar: true, ticket_nbr: scanned_ticket_nbr, title: scanned_ticket_nbr)
   end
 
   def camera_available
