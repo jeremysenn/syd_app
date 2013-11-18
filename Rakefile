@@ -4,8 +4,8 @@ require 'motion/project/template/ios'
 require "rubygems"
 
 begin
-  Bundler.setup
   require 'bundler'
+  Bundler.setup
   Bundler.require
   require 'formotion'
 rescue LoadError
