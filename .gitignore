@@ -12,6 +12,8 @@ nbproject
 *~
 *.sw[po]
 .eprj
+vendor/Pods
+*.nib
 .sass-cache
 .idea
 .dat*.*
