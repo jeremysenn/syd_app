@@ -53,30 +53,30 @@ class PhotosScreen < PM::Screen
         add_scroll_view(photos.count)
 #        add_page_control(photos.count)
         photos.each_with_index do |photo, i|
-          AFMotion::Image.get(photo.url) do |result|
+          AFMotion::Image.get(photo.preview_url) do |result|
             image_view = UIImageView.alloc.initWithImage(result.object)
             image_view.frame = [[view.frame.width * i, 0],[photo.width, photo.height]]
             if image_view.image.nil?
               p "Image failed to load from server using AFMotion"
-              BubbleWrap::HTTP.get(photo.url) do |response|
+              BubbleWrap::HTTP.get(photo.preview_url) do |response|
                 image_view.image = UIImage.imageWithData(response.body)
                 @scroll_view.addSubview image_view
                 p "Second try, this time using BubbleWrap"
                 if image_view.image.nil?
                   p "Crap, image is nil after second try"
-                  BubbleWrap::HTTP.get(photo.url) do |response|
+                  BubbleWrap::HTTP.get(photo.preview_url) do |response|
                     image_view.image = UIImage.imageWithData(response.body)
                     @scroll_view.addSubview image_view
                     p "Third try, again using BubbleWrap"
                     if image_view.image.nil?
                       p "Oh man, image is still nil after three tries"
-                      BubbleWrap::HTTP.get(photo.url) do |response|
+                      BubbleWrap::HTTP.get(photo.preview_url) do |response|
                         image_view.image = UIImage.imageWithData(response.body)
                         @scroll_view.addSubview image_view
                         p "Fourth try, again using BubbleWrap"
                         if image_view.image.nil?
                           p "Oh man, image is still nil after four tries"
-                          BubbleWrap::HTTP.get(photo.url) do |response|
+                          BubbleWrap::HTTP.get(photo.preview_url) do |response|
                             image_view.image = UIImage.imageWithData(response.body)
                             @scroll_view.addSubview image_view
                             p "Fifth try, again using BubbleWrap"

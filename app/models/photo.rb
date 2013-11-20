@@ -1,25 +1,69 @@
 class Photo
-  attr_accessor :url, :width, :height, :capture_seq_nbr
+  PROPERTIES = [:preview_url, :image_url, :width, :height, :capture_seq_nbr, :ticket_nbr, :sys_date_time]
+  PROPERTIES.each { |prop|
+    attr_accessor prop
+  }
+#  attr_accessor :preview_url, :width, :height, :capture_seq_nbr, :ticket_nbr, :sys_date_time
+
   AFMotion::Client.build_shared("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/") do
     operation :json
     header "Accept", "application/json"
   end
   
   def initialize(attrs)
-
-    # SYD Implementation
-    @url = attrs[:url]
+    @preview_url = attrs[:preview_url]
+    @image_url = attrs[:image_url]
     @capture_seq_nbr = attrs[:capture_seq_nbr]
+    @ticket_nbr = attrs[:ticket_nbr]
+    @sys_date_time = attrs[:sys_date_time]
     @width = 326.0
     @height = 460.0
   end
+
+  # called when an object is loaded from NSUserDefaults
+  # this is an initializer, so should return `self`
+
+  def initWithCoder(decoder)
+#    self.init
+    PROPERTIES.each { |prop|
+      value = decoder.decodeObjectForKey(prop.to_s)
+      self.send((prop.to_s + "=").to_s, value) if value
+    }
+    self
+  end
+
+  # called when saving an object to NSUserDefaults
+  def encodeWithCoder(encoder)
+    PROPERTIES.each { |prop|
+      encoder.encodeObject(self.send(prop), forKey: prop.to_s)
+    }
+  end
+
+  def save
+    defaults = NSUserDefaults.standardUserDefaults
+    defaults["#{self.capture_seq_nbr}"] = NSKeyedArchiver.archivedDataWithRootObject(self)
+  end
+
+#  def self.load
+#    defaults = NSUserDefaults.standardUserDefaults
+#    data = defaults["#{self.capture_seq_nbr}"]
+#    # protect against nil case
+#    NSKeyedUnarchiver.unarchiveObjectWithData(data) if data
+#  end
+
   
   def self.find(ticket_number, &block)
     AFMotion::Client.shared.get("#{ticket_number}/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
       if result.success?
         json = result.object
-        p json
+#        p json
         photos = json.map{|item| Photo.new(item)} # SYD Implementation
+#        defaults = NSUserDefaults.standardUserDefaults
+        photos.each do |photo|
+          photo.save
+#          photo_as_data = NSKeyedArchiver.archivedDataWithRootObject(photo)
+#          defaults["#{photo.capture_seq_nbr}"] = photo_as_data
+        end
         block.call(photos)
       else
         #something went wrong
@@ -65,7 +109,7 @@ class Photo
 #      BW::HTTP.post("http://localhost:3000/pictures/create_picture_from_json", {payload: picture_data}) do |response|
         if response.ok?
           json = BW::JSON.parse(response.body.to_str)
-          p json['id']
+#          p json['id']
 #          App.alert("Done uploading")
           @alert_box = UIAlertView.alloc.initWithTitle("Message",
           message:"Done uploading",

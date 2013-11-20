@@ -30,31 +30,31 @@ class GridPhotosScreen < PM::Screen
           image_button.addTarget(self, action: "image_tapped:", forControlEvents: UIControlEventTouchUpInside)
           add_to tile, image_button
 
-          AFMotion::Image.get(photo.url) do |result|
+          AFMotion::Image.get(photo.preview_url) do |result|
             image_view = UIImageView.alloc.initWithImage(result.object)
             if image_view.image.nil?
               p "Image failed to load from server using AFMotion"
-              BubbleWrap::HTTP.get(photo.url) do |response|
+              BubbleWrap::HTTP.get(photo.preview_url) do |response|
                 image_view.image = UIImage.imageWithData(response.body)
                 p "Second try, this time using BubbleWrap"
                 if image_view.image.nil?
                   p "Image failed to load from server on second try"
-                  BubbleWrap::HTTP.get(photo.url) do |response|
+                  BubbleWrap::HTTP.get(photo.preview_url) do |response|
                     image_view.image = UIImage.imageWithData(response.body)
                     p "Third try"
                     if image_view.image.nil?
                       p "Image failed to load from server on third try"
-                      BubbleWrap::HTTP.get(photo.url) do |response|
+                      BubbleWrap::HTTP.get(photo.preview_url) do |response|
                         image_view.image = UIImage.imageWithData(response.body)
                         p "Fourth try"
                         if image_view.image.nil?
                           p "Image failed to load from server on fourth try"
-                          BubbleWrap::HTTP.get(photo.url) do |response|
+                          BubbleWrap::HTTP.get(photo.preview_url) do |response|
                             image_view.image = UIImage.imageWithData(response.body)
                             p "Fifth try"
                             if image_view.image.nil?
                               p "Image failed to load from server on fifth try"
-                              BubbleWrap::HTTP.get(photo.url) do |response|
+                              BubbleWrap::HTTP.get(photo.preview_url) do |response|
                                 image_view.image = UIImage.imageWithData(response.body)
                                 p "Sixth try"
                               end # End fifth bubblewrap get
@@ -133,7 +133,9 @@ class GridPhotosScreen < PM::Screen
 
   def image_tapped(sender)
     capture_seq_nbr = sender.tag
-    App.alert("#{capture_seq_nbr}")
+#    App.alert("#{self.ticket_nbr}")
+#    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr, title: "#{self.ticket_nbr}")
+    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr, title: "#{capture_seq_nbr}")
   end
 
   def add_photo
