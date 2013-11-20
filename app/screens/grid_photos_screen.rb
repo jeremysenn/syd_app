@@ -14,10 +14,12 @@ class GridPhotosScreen < PM::Screen
     @scroll.frame = self.view.bounds
     @scroll.contentSize = CGSizeMake(@scroll.frame.size.width, content_height(@scroll) + 20)
 
-    add_to @scroll, UILabel.new, label_style
+#    add_to @scroll, UILabel.new, label_style
+
     showProgress
     Photo.find(ticket_nbr) do |photos|
-      unless photos.nil?
+      unless photos == nil or photos.empty?
+        cust_name_label(photos.first)
         @scroll.contentSize = CGSizeMake(320, (photos.count)*80);
         photos.each_with_index do |photo, i|
           tile =  add Tile.new, { frame: CGRectMake( ((i+2).odd? ? 20 : 170),  ((i/2).to_i * 150 + 40), 130, 130) }
@@ -94,7 +96,7 @@ class GridPhotosScreen < PM::Screen
             end # End first image.nil?
           end # End AFMotion image get
         end # End photos.each do
-      end # End photos.nil?
+      end # End photos.empty?
       if photos.nil?
         App.alert("Error connecting to database")
       elsif photos.count == 0
@@ -103,7 +105,13 @@ class GridPhotosScreen < PM::Screen
       dismissProgress
     end # End Photo.find
 
-    set_nav_bar_button :right, system_icon: :add, action: :add_photo
+#    set_nav_bar_button :right, system_icon: :add, action: :add_photo
+
+    @add_button =  UIButton.buttonWithType(UIButtonTypeCustom)
+    @add_button.setImage(UIImage.imageNamed("icons/plus-32.png"), forState:UIControlStateNormal)
+    @add_button.addTarget(self, action: :add_photo, forControlEvents:UIControlEventTouchUpInside)
+    @add_button.setFrame CGRectMake(0, 0, 32, 32)
+    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button), type: UIBarButtonItemStylePlain
 
     button =  UIButton.buttonWithType(UIButtonTypeCustom)
     button.setImage(UIImage.imageNamed("logo"), forState:UIControlStateNormal)
@@ -135,7 +143,7 @@ class GridPhotosScreen < PM::Screen
     capture_seq_nbr = sender.tag
 #    App.alert("#{self.ticket_nbr}")
 #    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr, title: "#{self.ticket_nbr}")
-    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr, title: "#{capture_seq_nbr}")
+    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr)
   end
 
   def add_photo
@@ -160,6 +168,21 @@ class GridPhotosScreen < PM::Screen
       SVProgressHUD.dismiss
     else
       SVProgressHUD.showSuccessWithStatus "#{yield}"
+    end
+  end
+
+  def cust_name_label(photo)
+    unless photo.cust_name.nil?
+      add_to @scroll, UILabel.new, {
+        text: "#{photo.cust_name}",
+        text_color: hex_color("8F8F8D"),
+        background_color: UIColor.clearColor,
+        shadow_color: UIColor.blackColor,
+        text_alignment: UITextAlignmentCenter,
+        font: UIFont.systemFontOfSize(15.0),
+        resize: [ :left, :right, :bottom ], # ProMotion sugar here
+        frame: CGRectMake(10, 0, 300, 35)
+      }
     end
   end
 end

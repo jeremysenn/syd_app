@@ -3,7 +3,13 @@ class SettingsScreen < PM::FormotionScreen
   
   def will_appear
 #    set_nav_bar_button :left, title: "Cancel", action: :cancel_tapped
-    set_nav_bar_right_button "Save", action: :save
+#    @save_button =  set_nav_bar_right_button "Save", action: :save
+
+    @save_button =  UIButton.buttonWithType(UIButtonTypeCustom)
+    @save_button.setImage(UIImage.imageNamed("icons/save_as-25"), forState:UIControlStateNormal)
+    @save_button.addTarget(self, action: :save, forControlEvents:UIControlEventTouchUpInside)
+    @save_button.setFrame CGRectMake(0, 0, 32, 32)
+    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@save_button)
   end
 
 
@@ -68,6 +74,7 @@ class SettingsScreen < PM::FormotionScreen
       cancelButtonTitle: "ok",
       otherButtonTitles:nil)
       @alert_box.show
+    @save_button.enabled = false
   end
 
 end

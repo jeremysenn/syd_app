@@ -8,8 +8,16 @@ class AppDelegate < PM::Delegate
 #      header "Accept", "application/json"
 #    end
 
-#    open HomeScreen.new(nav_bar: true)
-    open_tab_bar SearchScreen.new(nav_bar: true), SettingsScreen.new(nav_bar: true), HelpScreen.new(nav_bar: true)
+    search_screen = SearchScreen.new(nav_bar: true)
+    search_screen.set_tab_bar_item title: "Search", icon: "icons/search-25.png"
+    
+    settings_screen = SettingsScreen.new(nav_bar: true)
+    settings_screen.set_tab_bar_item title: "Settings", icon: "icons/settings-25.png"
+    
+    help_screen = HelpScreen.new(nav_bar: true)
+    help_screen.set_tab_bar_item title: "Help", icon: "icons/help-25.png"
+
+    open_tab_bar search_screen, settings_screen, help_screen
   end
   
 end

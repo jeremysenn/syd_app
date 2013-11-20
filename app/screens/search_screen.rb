@@ -6,8 +6,6 @@ class SearchScreen < PM::GroupedTableScreen
 #    set_nav_bar_button :left, title: "Help", action: :help_tapped
 #    set_nav_bar_button :right, title: "Settings", action: :settings_tapped
 #    set_nav_bar_button :right, title: "States", action: :states_tapped
-
-    set_tab_bar_item({ system_icon: UITabBarSystemItemSearch })
   end
 
   def on_present

@@ -1,5 +1,5 @@
 class Photo
-  PROPERTIES = [:preview_url, :image_url, :width, :height, :capture_seq_nbr, :ticket_nbr, :sys_date_time]
+  PROPERTIES = [:preview_url, :image_url, :width, :height, :capture_seq_nbr, :ticket_nbr, :sys_date_time, :cust_name, :cust_nbr]
   PROPERTIES.each { |prop|
     attr_accessor prop
   }
@@ -16,6 +16,8 @@ class Photo
     @capture_seq_nbr = attrs[:capture_seq_nbr]
     @ticket_nbr = attrs[:ticket_nbr]
     @sys_date_time = attrs[:sys_date_time]
+    @cust_name = attrs[:cust_name]
+    @cust_nbr = attrs[:cust_nbr]
     @width = 326.0
     @height = 460.0
   end
