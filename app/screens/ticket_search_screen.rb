@@ -3,7 +3,12 @@ class TicketSearchScreen < PM::FormotionScreen
   
   def will_appear
 #    set_nav_bar_button :left, title: "Cancel", action: :cancel_tapped
-    set_nav_bar_right_button "Go", action: :ticket_search
+    @search_button =  UIButton.buttonWithType(UIButtonTypeCustom)
+    @search_button.setImage(UIImage.imageNamed("icons/search-25"), forState:UIControlStateNormal)
+    @search_button.addTarget(self, action: :ticket_search, forControlEvents:UIControlEventTouchUpInside)
+    @search_button.setFrame CGRectMake(0, 0, 32, 32)
+    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@search_button)
+#    set_nav_bar_right_button "Go", action: :ticket_search
   end
 
 

@@ -111,7 +111,7 @@ class GridPhotosScreen < PM::Screen
     @add_button.setImage(UIImage.imageNamed("icons/plus-32.png"), forState:UIControlStateNormal)
     @add_button.addTarget(self, action: :add_photo, forControlEvents:UIControlEventTouchUpInside)
     @add_button.setFrame CGRectMake(0, 0, 32, 32)
-    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button), type: UIBarButtonItemStylePlain
+    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
 
     button =  UIButton.buttonWithType(UIButtonTypeCustom)
     button.setImage(UIImage.imageNamed("logo"), forState:UIControlStateNormal)
