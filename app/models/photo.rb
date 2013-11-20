@@ -128,7 +128,7 @@ class Photo
         else
           unless response.error_message == ""
 #            App.alert(response.error_message)
-            @alert_box = UIAlertView.alloc.initWithTitle("Done",
+            @alert_box = UIAlertView.alloc.initWithTitle("Photo uploaded",
             message: response.error_message,
             delegate: nil,
             cancelButtonTitle: "ok",

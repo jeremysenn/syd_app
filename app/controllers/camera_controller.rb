@@ -14,6 +14,7 @@ class CameraController < UIViewController
   def imagePickerController(picker, didFinishPickingImage:image, editingInfo:info)
     self.dismissModalViewControllerAnimated(true)
     add_image_view(image)
+    upload
 #    apply_image_filter
   end
 
@@ -40,8 +41,8 @@ class CameraController < UIViewController
     @image_view.frame = [[0, 65],[326, 460]]
     view.addSubview(@image_view)
 
-    right_upload_button = UIBarButtonItem.alloc.initWithTitle("Upload", style: UIBarButtonItemStyleBordered, target:self, action:'upload')
-    self.navigationItem.rightBarButtonItem = right_upload_button
+#    right_upload_button = UIBarButtonItem.alloc.initWithTitle("Upload", style: UIBarButtonItemStyleBordered, target:self, action:'upload')
+#    self.navigationItem.rightBarButtonItem = right_upload_button
   end
 
   def upload
