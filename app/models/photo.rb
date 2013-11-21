@@ -58,7 +58,7 @@ class Photo
     AFMotion::Client.shared.get("#{ticket_number}/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
       if result.success?
         json = result.object
-#        p json
+        p json
         photos = json.map{|item| Photo.new(item)} # SYD Implementation
 #        defaults = NSUserDefaults.standardUserDefaults
         photos.each do |photo|

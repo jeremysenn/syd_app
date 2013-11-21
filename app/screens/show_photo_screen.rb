@@ -12,7 +12,7 @@ class ShowPhotoScreen < PM::Screen
     @photo = NSKeyedUnarchiver.unarchiveObjectWithData(photo_as_data)
     self.title = @photo.cust_name
 #    cust_name_label(@photo)
-    showProgress
+    
     show_photo
   end
 
@@ -20,7 +20,7 @@ class ShowPhotoScreen < PM::Screen
 #    unless self.ticket_nbr == ""
 #      self.title = self.ticket_nbr
 #    end
-
+    showProgress
     @download_button =  UIButton.buttonWithType(UIButtonTypeCustom)
     @download_button.setImage(UIImage.imageNamed("icons/download-25"), forState:UIControlStateNormal)
     @download_button.addTarget(self, action: :save_photo, forControlEvents:UIControlEventTouchUpInside)
@@ -34,7 +34,7 @@ class ShowPhotoScreen < PM::Screen
 
   def show_photo
 #    showProgress
-    AFMotion::Image.get(@photo.image_url) do |result|
+    AFMotion::Image.get("#{@photo.image_url}?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
       @image = result.object
       tile =  add Tile.new, { frame: CGRectMake(0, 65, self.view.frame.width, self.view.frame.height) }
       add_to view, tile
@@ -44,8 +44,9 @@ class ShowPhotoScreen < PM::Screen
 #      image_view.frame = [[0, 0],[self.view.frame.width, self.view.frame.height]]
       add_to tile, image_view
 #      view.addSubview image_view
-    end
       dismissProgress
+    end
+      
   end
 
   #Show spinner

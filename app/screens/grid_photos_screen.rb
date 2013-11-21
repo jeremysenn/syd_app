@@ -32,7 +32,7 @@ class GridPhotosScreen < PM::Screen
           image_button.addTarget(self, action: "image_tapped:", forControlEvents: UIControlEventTouchUpInside)
           add_to tile, image_button
 
-          AFMotion::Image.get(photo.preview_url) do |result|
+          AFMotion::Image.get("#{photo.preview_url}?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
             image_view = UIImageView.alloc.initWithImage(result.object)
             if image_view.image.nil?
               p "Image failed to load from server using AFMotion"
