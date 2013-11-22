@@ -10,16 +10,26 @@ class Photo
     header "Accept", "application/json"
   end
   
-  def initialize(attrs)
-    @preview_url = attrs[:preview_url]
-    @image_url = attrs[:image_url]
-    @capture_seq_nbr = attrs[:capture_seq_nbr]
-    @ticket_nbr = attrs[:ticket_nbr]
-    @sys_date_time = attrs[:sys_date_time]
-    @cust_name = attrs[:cust_name]
-    @cust_nbr = attrs[:cust_nbr]
-    @width = 326.0
-    @height = 460.0
+#  def initialize(attrs)
+#    @preview_url = attrs[:preview_url]
+#    @image_url = attrs[:image_url]
+#    @capture_seq_nbr = attrs[:capture_seq_nbr]
+#    @ticket_nbr = attrs[:ticket_nbr]
+#    @sys_date_time = attrs[:sys_date_time]
+#    @cust_name = attrs[:cust_name]
+#    @cust_nbr = attrs[:cust_nbr]
+#    @width = 326.0
+#    @height = 460.0
+#  end
+
+  def initialize(attributes={})
+    attributes.each { |key, value|
+      if PROPERTIES.member? key.to_sym
+        self.send((key.to_s + "=").to_s, value)
+      end
+    }
+    self.send("width=", 326.0)
+    self.send("height=", 460.0)
   end
 
   # called when an object is loaded from NSUserDefaults

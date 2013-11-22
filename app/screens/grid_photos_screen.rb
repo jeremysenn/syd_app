@@ -3,8 +3,9 @@ class GridPhotosScreen < PM::Screen
 
 #  title "Grid Photos"
   attr_accessor :ticket_nbr
+  attr_accessor :photos
 
-  def will_appear
+  def on_load
     set_attributes self.view, main_view_style
     unless @scroll.nil?
       @scroll.removeFromSuperview
@@ -17,12 +18,22 @@ class GridPhotosScreen < PM::Screen
 #    add_to @scroll, UILabel.new, label_style
 
     showProgress
-    Photo.find(ticket_nbr) do |photos|
+    @photos = Photo.find(ticket_nbr) do |photos|
       unless photos == nil or photos.empty?
         cust_name_label(photos.first)
         @scroll.contentSize = CGSizeMake(320, (photos.count)*80);
         photos.each_with_index do |photo, i|
           tile =  add Tile.new, { frame: CGRectMake( ((i+2).odd? ? 20 : 170),  ((i/2).to_i * 150 + 40), 130, 130) }
+          add_to tile, UILabel.new, {
+            text: "Loading ...",
+            text_color: hex_color("8F8F8D"),
+            background_color: UIColor.clearColor,
+            shadow_color: UIColor.blackColor,
+            text_alignment: UITextAlignmentCenter,
+            font: UIFont.systemFontOfSize(15.0),
+            resize: [ :left, :right, :bottom ], # ProMotion sugar here
+            frame: CGRectMake(0, 0, 130, 130)
+          }
           add_to @scroll, tile
           
           image_button = UIButton.buttonWithType(UIButtonTypeCustom)
@@ -184,5 +195,9 @@ class GridPhotosScreen < PM::Screen
         frame: CGRectMake(10, 0, 300, 35)
       }
     end
+  end
+
+  def all_photos
+    @photos
   end
 end
