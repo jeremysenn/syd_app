@@ -29,7 +29,7 @@ class ShowPhotoScreen < PM::Screen
   end
 
   def close_tapped
-    close
+    close(no_refresh: true)
   end
 
   def show_photo

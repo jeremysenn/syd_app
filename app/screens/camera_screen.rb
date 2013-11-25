@@ -1,6 +1,8 @@
-class CameraController < UIViewController
+class CameraScreen < PM::Screen
+  include HomeStyles
+
   attr_accessor :ticket_nbr
-  
+
  def viewDidLoad
     view.backgroundColor = UIColor.grayColor
 #    init_picker_btn
@@ -44,8 +46,11 @@ class CameraController < UIViewController
   end
 
   def upload
+    p "Photo uploaded"
     showProgress
     Photo.add_photo(@image_view.image, self.ticket_nbr)
+
+    
   end
 
   def touched
@@ -84,5 +89,4 @@ class CameraController < UIViewController
       SVProgressHUD.showSuccessWithStatus "#{yield}"
     end
   end
-
 end

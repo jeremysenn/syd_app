@@ -9,7 +9,7 @@ class Photo
     operation :json
     header "Accept", "application/json"
   end
-  
+
 #  def initialize(attrs)
 #    @preview_url = attrs[:preview_url]
 #    @image_url = attrs[:image_url]
@@ -63,7 +63,7 @@ class Photo
 #    NSKeyedUnarchiver.unarchiveObjectWithData(data) if data
 #  end
 
-  
+
   def self.find(ticket_number, &block)
     AFMotion::Client.shared.get("#{ticket_number}/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
       if result.success?

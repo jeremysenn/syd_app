@@ -5,7 +5,7 @@ class GridPhotosScreen < PM::Screen
   attr_accessor :ticket_nbr
   attr_accessor :photos
 
-  def on_load
+  def will_appear
     set_attributes self.view, main_view_style
     unless @scroll.nil?
       @scroll.removeFromSuperview
@@ -22,7 +22,7 @@ class GridPhotosScreen < PM::Screen
       unless photos == nil or photos.empty?
         cust_name_label(photos.first)
         @scroll.contentSize = CGSizeMake(320, (photos.count)*80);
-        photos.each_with_index do |photo, i|
+        photos.reverse.each_with_index do |photo, i|
           tile =  add Tile.new, { frame: CGRectMake( ((i+2).odd? ? 20 : 170),  ((i/2).to_i * 150 + 40), 130, 130) }
           add_to tile, UILabel.new, {
             text: "Loading ...",
@@ -45,66 +45,10 @@ class GridPhotosScreen < PM::Screen
 
           AFMotion::Image.get("#{photo.preview_url}?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
             image_view = UIImageView.alloc.initWithImage(result.object)
-            if image_view.image.nil?
-              p "Image failed to load from server using AFMotion"
-              BubbleWrap::HTTP.get(photo.preview_url) do |response|
-                image_view.image = UIImage.imageWithData(response.body)
-                p "Second try, this time using BubbleWrap"
-                if image_view.image.nil?
-                  p "Image failed to load from server on second try"
-                  BubbleWrap::HTTP.get(photo.preview_url) do |response|
-                    image_view.image = UIImage.imageWithData(response.body)
-                    p "Third try"
-                    if image_view.image.nil?
-                      p "Image failed to load from server on third try"
-                      BubbleWrap::HTTP.get(photo.preview_url) do |response|
-                        image_view.image = UIImage.imageWithData(response.body)
-                        p "Fourth try"
-                        if image_view.image.nil?
-                          p "Image failed to load from server on fourth try"
-                          BubbleWrap::HTTP.get(photo.preview_url) do |response|
-                            image_view.image = UIImage.imageWithData(response.body)
-                            p "Fifth try"
-                            if image_view.image.nil?
-                              p "Image failed to load from server on fifth try"
-                              BubbleWrap::HTTP.get(photo.preview_url) do |response|
-                                image_view.image = UIImage.imageWithData(response.body)
-                                p "Sixth try"
-                              end # End fifth bubblewrap get
-                            else
-                              p "Image is good on fifth try"
-                              image_view.frame = [[0,  0], [130, 130]]
-                              add_to tile, image_view
-                              add_to @scroll, tile
-                            end # End fifth image.nil?
-                          end # End fourth bubblewrap get
-                        else
-                          p "Image is good on fourth try"
-                          image_view.frame = [[0,  0], [130, 130]]
-                          add_to tile, image_view
-                          add_to @scroll, tile
-                        end # End fourth image.nil?
-                      end # End third bubblewrap get
-                    else
-                      p "Image is good on third try"
-                      image_view.frame = [[0,  0], [130, 130]]
-                      add_to tile, image_view
-                      add_to @scroll, tile
-                    end # End third image.nil?
-                  end # End second bubblewrap get
-                else
-                  p "Image is good on second try"
-                  image_view.frame = [[0,  0], [130, 130]]
-                  add_to tile, image_view
-                  add_to @scroll, tile
-                end # End second image.nil?
-              end # End first bubblewrap get
-            else
-              p "Image is good on first try"
-              image_view.frame = [[0,  0], [130, 130]]
-              add_to tile, image_view
-              add_to @scroll, tile
-            end # End first image.nil?
+            p "Image downloaded"
+            image_view.frame = [[0,  0], [130, 130]]
+            add_to tile, image_view
+            add_to @scroll, tile
           end # End AFMotion image get
         end # End photos.each do
       end # End photos.empty?
@@ -130,7 +74,7 @@ class GridPhotosScreen < PM::Screen
     button.setFrame CGRectMake(0, 0, 32, 32)
 
 #    set_nav_bar_button :left, button: UIBarButtonItem.alloc.initWithCustomView(button)
-    set_nav_bar_button :left, title: "Close", action: :close_tapped
+#    set_nav_bar_button :left, title: "Close", action: :close_tapped
   end
 
 #  def will_appear
@@ -138,8 +82,8 @@ class GridPhotosScreen < PM::Screen
 #    @scroll.contentSize = CGSizeMake(@scroll.frame.size.width, content_height(@scroll) + 20)
 #  end
 
-  def add_note
-    open AddNoteScreen
+  def on_return(args = {})
+    p args
   end
 
   def tapped_log
@@ -159,9 +103,11 @@ class GridPhotosScreen < PM::Screen
 
   def add_photo
 #    App.alert("new photo stuff here")
-    camera_controller = CameraController.alloc.initWithNibName(nil, bundle: nil)
-    camera_controller.ticket_nbr = self.title
-    open camera_controller
+#    camera_controller = CameraController.alloc.initWithNibName(nil, bundle: nil)
+#    camera_controller.ticket_nbr = self.title
+#    open camera_controller
+
+    open CameraScreen.new(nav_bar: true, ticket_nbr: @ticket_nbr)
   end
 
   #Show spinner
