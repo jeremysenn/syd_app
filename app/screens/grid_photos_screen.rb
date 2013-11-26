@@ -1,11 +1,12 @@
 class GridPhotosScreen < PM::Screen
   include HomeStyles
 
-#  title "Grid Photos"
   attr_accessor :ticket_nbr
   attr_accessor :photos
 
+
   def will_appear
+
     set_attributes self.view, main_view_style
     unless @scroll.nil?
       @scroll.removeFromSuperview
@@ -35,7 +36,7 @@ class GridPhotosScreen < PM::Screen
             frame: CGRectMake(0, 0, 130, 130)
           }
           add_to @scroll, tile
-          
+
           image_button = UIButton.buttonWithType(UIButtonTypeCustom)
           image_button.frame = [[0, 0], [130, 130]]
           image_button.tag = photo.capture_seq_nbr
@@ -68,10 +69,12 @@ class GridPhotosScreen < PM::Screen
     @add_button.setFrame CGRectMake(0, 0, 32, 32)
     set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
 
-    button =  UIButton.buttonWithType(UIButtonTypeCustom)
-    button.setImage(UIImage.imageNamed("logo"), forState:UIControlStateNormal)
-    button.addTarget(self, action: :tapped_logo, forControlEvents:UIControlEventTouchUpInside)
-    button.setFrame CGRectMake(0, 0, 32, 32)
+    ### Refresh Button ###
+#    button =  UIButton.buttonWithType(UIButtonTypeCustom)
+#    button.setImage(UIImage.imageNamed("icons/refresh_shield-25.png"), forState:UIControlStateNormal)
+#    button.addTarget(self, action: :tapped_refresh, forControlEvents:UIControlEventTouchUpInside)
+#    button.setFrame CGRectMake(@scroll.frame.size.width - 30, 0, 32, 32)
+#    add_to @scroll, button
 
 #    set_nav_bar_button :left, button: UIBarButtonItem.alloc.initWithCustomView(button)
 #    set_nav_bar_button :left, title: "Close", action: :close_tapped
@@ -88,6 +91,12 @@ class GridPhotosScreen < PM::Screen
 
   def tapped_log
     PM.logger.info "Tapped logo!"
+  end
+
+  def tapped_refresh
+    PM.logger.info "Tapped refresh"
+#    open_root_screen(GridPhotosScreen.new(nav_bar: true, ticket_nbr: ticket_nbr, title: ticket_nbr))
+#    open GridPhotosScreen.new(nav_bar: true, ticket_nbr: ticket_nbr, title: ticket_nbr)
   end
 
   def close_tapped
