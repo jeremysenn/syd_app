@@ -5,10 +5,10 @@ class Photo
   }
 #  attr_accessor :preview_url, :width, :height, :capture_seq_nbr, :ticket_nbr, :sys_date_time
 
-  AFMotion::Client.build_shared("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/") do
-    operation :json
-    header "Accept", "application/json"
-  end
+#  AFMotion::Client.build_shared("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/") do
+#    operation :json
+#    header "Accept", "application/json"
+#  end
 
 #  def initialize(attrs)
 #    @preview_url = attrs[:preview_url]
