@@ -3,10 +3,10 @@ class AppDelegate < PM::Delegate
 
   def on_load(app, options)
 
-    AFMotion::Client.build_shared("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/") do
-      operation :json
-      header "Accept", "application/json"
-    end
+#    AFMotion::Client.build_shared("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/") do
+#      operation :json
+#      header "Accept", "application/json"
+#    end
 
     search_screen = SearchScreen.new(nav_bar: true)
     search_screen.set_tab_bar_item title: "Search", icon: "icons/search-25.png"

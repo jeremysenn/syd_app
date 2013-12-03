@@ -65,7 +65,8 @@ class Photo
 
 
   def self.find(ticket_number, &block)
-    AFMotion::Client.shared.get("#{ticket_number}/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
+#    AFMotion::Client.shared.get("#{ticket_number}/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
+    AFMotion::JSON.get("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/#{ticket_number}/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
       if result.success?
         json = result.object
         p json
