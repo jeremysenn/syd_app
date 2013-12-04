@@ -8,6 +8,18 @@ class AppDelegate < PM::Delegate
 #      header "Accept", "application/json"
 #    end
 
+    ### Set Demo Defaults ###
+    @defaults = NSUserDefaults.standardUserDefaults
+    if @defaults[:server].nil?
+      @defaults[:server] = "https://www.scrapyarddog.com"
+    end
+    if @defaults[:email].nil?
+      @defaults[:email] = "demo@tranact.com"
+    end
+    if @defaults[:password].nil?
+      @defaults[:password] = "demouser"
+    end
+
     search_screen = SearchScreen.new(nav_bar: true)
     search_screen.set_tab_bar_item title: "Search", icon: "icons/search-25.png"
     

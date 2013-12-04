@@ -57,7 +57,7 @@ class GridPhotosScreen < PM::Screen
         end # End photos.each do
       end # End photos.empty?
       if photos.nil?
-        App.alert("Error connecting to database")
+        App.alert("Error connecting to database - check you settings")
       elsif photos.count == 0
         App.alert("No images found")
       end

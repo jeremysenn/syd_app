@@ -80,13 +80,7 @@ class Photo
         block.call(photos)
       else
         #something went wrong
-        @alert_box = UIAlertView.alloc.initWithTitle("Error",
-          message:"Something went wrong with connection to server",
-          delegate: nil,
-          cancelButtonTitle: "ok",
-          otherButtonTitles:nil)
-        # Show it to the user
-        @alert_box.show
+        p "Error in photo.rb self.find"
         block.call(nil)
       end
     end
