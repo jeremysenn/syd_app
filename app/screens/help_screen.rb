@@ -9,14 +9,12 @@ class HelpScreen < PM::GroupedTableScreen
   [{
     title: "About",
     cells: [
-      { title: "ScrapYardDog", action: :about_syd },
-      { title: "TranAct", action: :about_tranact }
+      { title: "ScrapYardDog", action: :about_syd }
     ]
   }, {
     title: "Help",
     cells: [
-      { title: "Support", action: :email_us },
-      { title: "Feedback", action: :feedback }
+      { title: "Support", action: :email_us }
     ]
   }]
 end
@@ -24,6 +22,11 @@ end
   def email_us
     mailto_link = NSURL.URLWithString("mailto:info@tranact.com")
     UIApplication.sharedApplication.openURL(mailto_link)
+  end
+
+  def about_syd
+    syd_link = NSURL.URLWithString("https://scrapyarddog.com/ScrapYardDog.docx")
+    UIApplication.sharedApplication.openURL(syd_link)
   end
   
   def close_tapped
