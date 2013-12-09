@@ -11,6 +11,12 @@ class TicketSearchScreen < PM::FormotionScreen
 #    set_nav_bar_right_button "Go", action: :ticket_search
   end
 
+  def on_load
+    self.form.on_submit do |form|
+      ticket_search
+    end
+  end
+
 
   def table_data
     {
@@ -22,9 +28,14 @@ class TicketSearchScreen < PM::FormotionScreen
           auto_correction: :no,
           auto_capitalization: :none,
           text_alignment: :left
-        }]
-      }
-      ]
+        }],
+      },
+      {
+        rows: [{
+            title: "Search",
+            type: :submit,
+          }]
+      }]
     }
   end
 
