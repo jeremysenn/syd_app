@@ -3,11 +3,13 @@ $:.unshift("/Library/RubyMotion/lib")
 require 'motion/project/template/ios'
 require "rubygems"
 
+
 begin
   require 'bundler'
   Bundler.setup
   Bundler.require
   require 'formotion'
+  require 'sugarcube-image'
 rescue LoadError
 end
 

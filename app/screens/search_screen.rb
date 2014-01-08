@@ -51,11 +51,15 @@ class SearchScreen < PM::GroupedTableScreen
   def table_data
     [{
         cells: [
-          { title: "Ticket Number", action: :ticket_search_tapped },
+          { title: "Ticket", action: :ticket_search_tapped },
         ]
       }, {
         cells: [
           { title: "Barcode", action: :barcode_search_tapped },
+        ]
+      }, {
+        cells: [
+          { title: "Date", action: :date_search_tapped },
         ]
       }]
   end
@@ -66,5 +70,9 @@ class SearchScreen < PM::GroupedTableScreen
 
   def barcode_search_tapped
     open BarcodeSearchScreen.new(nav_bar: true)
+  end
+
+  def date_search_tapped
+    open DateSearchScreen.new(nav_bar: true)
   end
 end

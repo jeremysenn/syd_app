@@ -28,8 +28,10 @@ class Photo
         self.send((key.to_s + "=").to_s, value)
       end
     }
-    self.send("width=", 326.0)
-    self.send("height=", 460.0)
+#    self.send("width=", 326.0)
+#    self.send("height=", 460.0)
+    self.send("width=", 480)
+    self.send("height=", 640)
   end
 
   # called when an object is loaded from NSUserDefaults
@@ -81,6 +83,25 @@ class Photo
       else
         #something went wrong
         p "Error in photo.rb self.find"
+        block.call(nil)
+      end
+    end
+  end
+
+  def self.find_by_date(date, &block)
+#    AFMotion::JSON.get("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}&ticket_nbr=#{ticket_number}") do |result|
+    AFMotion::JSON.get("http://localhost:3000/image_datas/iphone_date_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}&date=#{date}") do |result|
+      if result.success?
+        json = result.object
+        p json
+        photos = json.map{|item| Photo.new(item)} # SYD Implementation
+        photos.each do |photo|
+          photo.save
+        end
+        block.call(photos)
+      else
+        #something went wrong
+        p "Error in photo.rb self.find_by_date"
         block.call(nil)
       end
     end

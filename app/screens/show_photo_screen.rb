@@ -1,6 +1,10 @@
 class ShowPhotoScreen < PM::Screen
-  attr_accessor :capture_seq_nbr#, :ticket_nbr, :sys_date_time
+  attr_accessor :capture_seq_nbr #, :ticket_nbr, :sys_date_time
   include HomeStyles
+
+  ###
+  ### THIS WAS THE OLD WAY WE WERE SHOWING DRILL-DOWN TO IMAGE ###
+  ###
   
   def will_appear
     set_attributes self.view, main_view_style
@@ -35,16 +39,48 @@ class ShowPhotoScreen < PM::Screen
   def show_photo
 #    showProgress
     AFMotion::Image.get("#{@photo.image_url}?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
-      @image = result.object
-      tile =  add Tile.new, { frame: CGRectMake(0, 65, self.view.frame.width, self.view.frame.height) }
-      add_to view, tile
-      image_view = UIImageView.alloc.initWithImage(result.object)
+      image = result.object
+#      image.scale_to_fill([326, 460])
+#      image.scale_within([326, 460])
+#      image.scale_to_fill([326, 460])
+#      tile =  add Tile.new, { frame: CGRectMake(0, 65, 326, 460) }
+#      tile =  add Tile.new, { frame: CGRectMake(0, 65, self.view.frame.width, self.view.frame.height - 65) }
+#      add_to view, tile
+      image_view = UIImageView.alloc.initWithImage(image)
+#      image_view.userInteractionEnabled = true
 #      image_view.frame = [[self.view.frame.width, 0],[@photo.width, @photo.height]]
-      image_view.frame = [[0, 0],[326, 460]]
+#      image_view.frame = [[0, 0],[326, 460]]
 #      image_view.frame = [[0, 0],[self.view.frame.width, self.view.frame.height]]
-      add_to tile, image_view
-#      view.addSubview image_view
+#      add_to tile, image_view
+      view.addSubview image_view
+
+      view('Zooming scrollview').zoomScale # => 1.0
+      pinch_open 'Zooming scrollview'
+      view('Zooming scrollview').zoomScale # => 2.0
+
+#      @scrollViewRotation = 0
+#      frame = UIScreen.mainScreen.applicationFrame
+#      frame.origin = CGPointZero
+#      self.view = UIView.alloc.initWithFrame(frame)
+#
+#      @scrollView = UIScrollView.alloc.initWithFrame(view.bounds)
+#      @scrollView.backgroundColor = UIColor.redColor
+#      @scrollView.delegate = self
+#      @scrollView.maximumZoomScale = 3
+#      view.addSubview(@scrollView)
+#
+#      @imageView = UIImageView.alloc.initWithImage(image)
+#      @imageView.frame = [[0, 65], @imageView.image.size]
+#      @scrollView.accessibilityLabel = 'Scroll view'
+#
+#      @scrollView.contentSize = @imageView.image.size
+#      @scrollView.addSubview(@imageView)
+#
+#      recognizer = UIRotationGestureRecognizer.alloc.initWithTarget(self, action:'handleRotation:')
+#      @scrollView.addGestureRecognizer(recognizer)
+
       dismissProgress
+#      App.alert("image height #{image.size.height}, image width #{image.size.width}")
     end
       
   end
@@ -86,5 +122,14 @@ class ShowPhotoScreen < PM::Screen
         frame: CGRectMake(10, 0, 300, 35)
       }
     end
+  end
+
+  def viewForZoomingInScrollView(sv)
+    @imageView
+  end
+
+  def handleRotation(recognizer)
+    @scrollViewRotation = recognizer.rotation
+    @scrollView.transform = CGAffineTransformMakeRotation(recognizer.rotation)
   end
 end

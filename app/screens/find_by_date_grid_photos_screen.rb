@@ -1,7 +1,7 @@
-class GridPhotosScreen < PM::Screen
+class FindByDateGridPhotosScreen < PM::Screen
   include HomeStyles
 
-  attr_accessor :ticket_nbr
+  attr_accessor :date
   attr_accessor :photos
 
   def on_load
@@ -22,7 +22,7 @@ class GridPhotosScreen < PM::Screen
 #    add_to @scroll, UILabel.new, label_style
 
     showProgress
-    @photos = Photo.find(ticket_nbr) do |photos|
+    @photos = Photo.find_by_date(date) do |photos|
       unless photos == nil or photos.empty?
         cust_name_label(photos.first)
         @scroll.contentSize = CGSizeMake(320, (photos.count)*80);
@@ -48,7 +48,6 @@ class GridPhotosScreen < PM::Screen
           add_to tile, image_button
 
           AFMotion::Image.get("#{photo.preview_url}?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}") do |result|
-            image = result.object
             image_view = UIImageView.alloc.initWithImage(result.object)
             p "Image downloaded"
             image_view.frame = [[0,  0], [130, 130]]
@@ -73,21 +72,7 @@ class GridPhotosScreen < PM::Screen
     @add_button.setFrame CGRectMake(0, 0, 32, 32)
     set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
 
-    ### Refresh Button ###
-#    button =  UIButton.buttonWithType(UIButtonTypeCustom)
-#    button.setImage(UIImage.imageNamed("icons/refresh_shield-25.png"), forState:UIControlStateNormal)
-#    button.addTarget(self, action: :tapped_refresh, forControlEvents:UIControlEventTouchUpInside)
-#    button.setFrame CGRectMake(@scroll.frame.size.width - 30, 0, 32, 32)
-#    add_to @scroll, button
-
-#    set_nav_bar_button :left, button: UIBarButtonItem.alloc.initWithCustomView(button)
-#    set_nav_bar_button :left, title: "Close", action: :close_tapped
   end
-
-#  def will_appear
-#    @scroll.frame = self.view.bounds
-#    @scroll.contentSize = CGSizeMake(@scroll.frame.size.width, content_height(@scroll) + 20)
-#  end
 
   def on_return(args = {})
     p args
@@ -99,19 +84,6 @@ class GridPhotosScreen < PM::Screen
 
   def tapped_refresh
     PM.logger.info "Tapped refresh"
-#    open_root_screen(GridPhotosScreen.new(nav_bar: true, ticket_nbr: ticket_nbr, title: ticket_nbr))
-#    open GridPhotosScreen.new(nav_bar: true, ticket_nbr: ticket_nbr, title: ticket_nbr)
-
-#    search_screen = SearchScreen.new(nav_bar: true)
-#    search_screen.set_tab_bar_item title: "Search", icon: "icons/search-25.png"
-#
-#    settings_screen = SettingsScreen.new(nav_bar: true)
-#    settings_screen.set_tab_bar_item title: "Settings", icon: "icons/settings-25.png"
-#
-#    help_screen = HelpScreen.new(nav_bar: true)
-#    help_screen.set_tab_bar_item title: "Help", icon: "icons/help-25.png"
-#
-#    open_tab_bar search_screen, settings_screen, help_screen
   end
 
   def close_tapped
@@ -120,18 +92,11 @@ class GridPhotosScreen < PM::Screen
 
   def image_tapped(sender)
     capture_seq_nbr = sender.tag
-#    App.alert("#{self.ticket_nbr}")
-#    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr, title: "#{self.ticket_nbr}")
-#    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr)
-    open ShowImageScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr)
+    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr)
   end
 
   def add_photo
-#    App.alert("new photo stuff here")
-#    camera_controller = CameraController.alloc.initWithNibName(nil, bundle: nil)
-#    camera_controller.ticket_nbr = self.title
-#    open camera_controller
-
+    App.alert("Add a photo")
     open CameraScreen.new(nav_bar: true, ticket_nbr: @ticket_nbr)
   end
 
