@@ -66,11 +66,15 @@ class FindByDateGridPhotosScreen < PM::Screen
 
 #    set_nav_bar_button :right, system_icon: :add, action: :add_photo
 
-    @add_button =  UIButton.buttonWithType(UIButtonTypeCustom)
-    @add_button.setImage(UIImage.imageNamed("icons/plus-32.png"), forState:UIControlStateNormal)
-    @add_button.addTarget(self, action: :add_photo, forControlEvents:UIControlEventTouchUpInside)
-    @add_button.setFrame CGRectMake(0, 0, 32, 32)
-    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
+    # New picture button
+#    @add_button =  UIButton.buttonWithType(UIButtonTypeCustom)
+#    @add_button.setImage(UIImage.imageNamed("icons/plus-32.png"), forState:UIControlStateNormal)
+#    @add_button.addTarget(self, action: :add_photo, forControlEvents:UIControlEventTouchUpInside)
+#    @add_button.setFrame CGRectMake(0, 0, 32, 32)
+#    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
+
+#    UIActionSheet.alert 'This is happening, OK?' { self.happened! }
+#    @actionSheet = UIActionSheet.alloc.initWithTitle("FILTER", delegate:self, cancelButtonTitle:"Cancel", destructiveButtonTitle:nil, otherButtonTitles:"All", "Some")
 
   end
 
@@ -92,7 +96,8 @@ class FindByDateGridPhotosScreen < PM::Screen
 
   def image_tapped(sender)
     capture_seq_nbr = sender.tag
-    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr)
+#    open ShowPhotoScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr)
+    open ShowImageScreen.new(nav_bar: true, capture_seq_nbr: capture_seq_nbr)
   end
 
   def add_photo
@@ -135,5 +140,9 @@ class FindByDateGridPhotosScreen < PM::Screen
 
   def all_photos
     @photos
+  end
+
+  def do_it
+    p "do it method"
   end
 end

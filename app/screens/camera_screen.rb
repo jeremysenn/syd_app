@@ -1,7 +1,7 @@
 class CameraScreen < PM::Screen
   include HomeStyles
 
-  attr_accessor :ticket_nbr
+  attr_accessor :ticket_nbr, :source
 
  def viewDidLoad
     view.backgroundColor = UIColor.grayColor
@@ -30,8 +30,10 @@ class CameraScreen < PM::Screen
   def init_image_picker
     @image_picker = UIImagePickerController.alloc.init
     @image_picker.delegate = self
-    @image_picker.sourceType = camera_available ?
+    @image_picker.sourceType = (self.source == "camera") ?
       UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary
+#    @image_picker.sourceType = camera_available ?
+#      UIImagePickerControllerSourceTypeCamera : UIImagePickerControllerSourceTypePhotoLibrary
   end
 
   def add_image_view(image)

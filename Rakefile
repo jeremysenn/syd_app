@@ -10,6 +10,7 @@ begin
   Bundler.require
   require 'formotion'
   require 'sugarcube-image'
+  require 'sugarcube-factories'
 rescue LoadError
 end
 

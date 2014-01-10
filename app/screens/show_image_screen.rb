@@ -15,11 +15,21 @@ class ShowImageScreen < PM::Screen
 
   def on_load
     showProgress
-    @download_button =  UIButton.buttonWithType(UIButtonTypeCustom)
-    @download_button.setImage(UIImage.imageNamed("icons/download-25"), forState:UIControlStateNormal)
-    @download_button.addTarget(self, action: :save_photo, forControlEvents:UIControlEventTouchUpInside)
-    @download_button.setFrame CGRectMake(0, 0, 32, 32)
-    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@download_button)
+
+    # Create download button in navbar
+#    @download_button =  UIButton.buttonWithType(UIButtonTypeCustom)
+#    @download_button.setImage(UIImage.imageNamed("icons/download-25"), forState:UIControlStateNormal)
+#    @download_button.addTarget(self, action: :save_photo, forControlEvents:UIControlEventTouchUpInside)
+#    @download_button.setFrame CGRectMake(0, 0, 32, 32)
+#    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@download_button)
+
+    # Create new photo button in navbar
+    @add_button =  UIButton.buttonWithType(UIButtonTypeCustom)
+    @add_button.setImage(UIImage.imageNamed("icons/plus-32.png"), forState:UIControlStateNormal)
+    @add_button.addTarget(self, action: :add_photo, forControlEvents:UIControlEventTouchUpInside)
+    @add_button.setFrame CGRectMake(0, 0, 32, 32)
+    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
+
   end
 
   def close_tapped
@@ -125,6 +135,22 @@ class ShowImageScreen < PM::Screen
 #      image_view.frame = [@scroll.frame.size.width, content_height(@scroll) - 80]
       image_view.frame = CGRectMake(0, 0, @scroll.frame.size.width, content_height(@scroll) - 160)
     end
+  end
+
+  def add_photo
+    options = {
+      :buttons => ["Take Photo", "Choose Existing"]
+    }
+    alert = BW::UIAlertView.default(options) do |alert|
+      if alert.clicked_button.title == "Take Photo"
+        p "Take photo"
+        open CameraScreen.new(nav_bar: true, ticket_nbr: @ticket_nbr, source: 'camera')
+      elsif alert.clicked_button.title == "Choose Existing"
+        p "Choose existing"
+        open CameraScreen.new(nav_bar: true, ticket_nbr: @ticket_nbr, source: 'library')
+      end
+    end
+    alert.show
   end
 
 end

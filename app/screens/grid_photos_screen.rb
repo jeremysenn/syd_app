@@ -132,7 +132,24 @@ class GridPhotosScreen < PM::Screen
 #    camera_controller.ticket_nbr = self.title
 #    open camera_controller
 
-    open CameraScreen.new(nav_bar: true, ticket_nbr: @ticket_nbr)
+    options = {
+#      :title   => "Dinner this Friday?",
+#      :message => "My treat!",
+      :buttons => ["Take Photo", "Choose Existing"]
+    }
+
+    alert = BW::UIAlertView.default(options) do |alert|
+      if alert.clicked_button.title == "Take Photo"
+        p "Take photo"
+        open CameraScreen.new(nav_bar: true, ticket_nbr: @ticket_nbr, source: 'camera')
+      elsif alert.clicked_button.title == "Choose Existing"
+        p "Choose existing"
+        open CameraScreen.new(nav_bar: true, ticket_nbr: @ticket_nbr, source: 'library')
+      end
+    end
+
+    alert.show
+
   end
 
   #Show spinner
