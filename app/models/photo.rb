@@ -90,7 +90,8 @@ class Photo
 
   def self.find_by_date(date, &block)
 #    AFMotion::JSON.get("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/ticket_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}&ticket_nbr=#{ticket_number}") do |result|
-    AFMotion::JSON.get("http://localhost:3000/image_datas/iphone_date_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}&date=#{date}") do |result|
+#    AFMotion::JSON.get("http://localhost:3000/image_datas/iphone_date_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}&date=#{date}") do |result|
+    AFMotion::JSON.get("#{NSUserDefaults.standardUserDefaults[:server]}/image_datas/iphone_date_search?email=#{NSUserDefaults.standardUserDefaults[:email]}&password=#{NSUserDefaults.standardUserDefaults[:password]}&date=#{date}") do |result|
       if result.success?
         json = result.object
         p json
