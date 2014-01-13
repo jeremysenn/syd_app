@@ -35,5 +35,11 @@ Motion::Project::App.setup do |app|
 #    app.entitlements['get-task-allow'] = true
 #    app.codesign_certificate = "" # The name of your certificate in the keychain
 #    app.provisioning_profile = "" # The location of your development .mobileprovision file
+
+    app.release do
+     app.entitlements['get-task-allow'] = true
+     app.codesign_certificate = "iPhone Distribution: Paul Colby (KSYZ5TY2K6)" # The name of your certificate in the keychain
+     app.provisioning_profile = "/Users/paulcolby/Library/MobileDevice/Provisioning\ Profiles/48F7EC92-3473-4D3A-9599-0869A77CBD34.mobileprovision" # The location of your development .mobileprovision file
+    end
   end
 end
