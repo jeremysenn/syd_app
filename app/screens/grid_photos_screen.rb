@@ -23,7 +23,7 @@ class GridPhotosScreen < PM::Screen
 
     showProgress
     @photos = Photo.find(ticket_nbr) do |photos|
-      unless photos == nil or photos.empty?
+      unless photos == nil or photos.count == 0
         cust_name_label(photos.first)
         @scroll.contentSize = CGSizeMake(320, (photos.count)*80);
         photos.reverse.each_with_index do |photo, i|
@@ -56,22 +56,22 @@ class GridPhotosScreen < PM::Screen
             add_to @scroll, tile
           end # End AFMotion image get
         end # End photos.each do
-      end # End photos.empty?
+        @add_button =  UIButton.buttonWithType(UIButtonTypeCustom)
+        @add_button.setImage(UIImage.imageNamed("icons/plus-32.png"), forState:UIControlStateNormal)
+        @add_button.addTarget(self, action: :add_photo, forControlEvents:UIControlEventTouchUpInside)
+        @add_button.setFrame CGRectMake(0, 0, 32, 32)
+        set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
+      end # End photos.count == 0?
       if photos.nil?
         App.alert("Error connecting to database - check you settings")
       elsif photos.count == 0
         App.alert("No images found")
       end
       dismissProgress
+
     end # End Photo.find
 
 #    set_nav_bar_button :right, system_icon: :add, action: :add_photo
-
-    @add_button =  UIButton.buttonWithType(UIButtonTypeCustom)
-    @add_button.setImage(UIImage.imageNamed("icons/plus-32.png"), forState:UIControlStateNormal)
-    @add_button.addTarget(self, action: :add_photo, forControlEvents:UIControlEventTouchUpInside)
-    @add_button.setFrame CGRectMake(0, 0, 32, 32)
-    set_nav_bar_button :right, button: UIBarButtonItem.alloc.initWithCustomView(@add_button)
 
     ### Refresh Button ###
 #    button =  UIButton.buttonWithType(UIButtonTypeCustom)
